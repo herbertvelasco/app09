@@ -1,3 +1,5 @@
+//App de Registro de actividades
+
 import 'package:app09/sql_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -142,7 +144,7 @@ class _HomePageState extends State<HomePage> {
           : ListView.builder(
               itemCount: _journals.length,
               itemBuilder: (context, index) => Card(
-                color: Colors.orange[200],
+                color: Colors.orange[250],
                 margin: const EdgeInsets.all(15),
                 child: ListTile(
                     title: Text(_journals[index]['title']),
