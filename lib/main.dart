@@ -108,6 +108,24 @@ showModalBottomSheet(
               ),
             ));
   }
+Future<void> _addItem() async {
+    await SQLHelper.createItem(
+        _titleController.text, _descriptionController.text);
+    _refreshJournals();
+  }
+Future<void> _updateItem(int id) async {
+    await SQLHelper.updateItem(
+        id, _titleController.text, _descriptionController.text);
+    _refreshJournals();
+  }
+void _deleteItem(int id) async {
+    await SQLHelper.deleteItem(id);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Se elimino con exito !!'),
+    ));
+    _refreshJournals();
+  }
+
 
 
 
