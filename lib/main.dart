@@ -62,7 +62,7 @@ showModalBottomSheet(
                 top: 15,
                 left: 15,
                 right: 15,
-                // this will prevent the soft keyboard from covering the text fields
+                // Esto evitará que el teclado virtual cubra los campos de texto
                 bottom: MediaQuery.of(context).viewInsets.bottom + 120,
               ),
               child: Column(
@@ -94,11 +94,11 @@ showModalBottomSheet(
                         await _updateItem(id);
                       }
 
-                      // Clear the text fields
+                      // Borrar los campos de texto
                       _titleController.text = '';
                       _descriptionController.text = '';
 
-                      // Close the bottom sheet
+                      // Cierra la hoja inferior
                       Navigator.of(context).pop();
                     },
                     child: Text(id == null ? 'Crear Nuevo' : 'Actualizar'),
