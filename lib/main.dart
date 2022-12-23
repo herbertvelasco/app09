@@ -1,7 +1,7 @@
 import 'package:app09/sql_helper.dart';
 import 'package:flutter/material.dart';
 
-void main(List<String> args) {
+void main() {
   runApp(const MyApp());
 }
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
@@ -43,18 +43,18 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _refreshJournals();
   }
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-void _showForm(int? id) async {
+  void _showForm(int? id) async {
     if (id != null) {
-      
       final existingJournal =
           _journals.firstWhere((element) => element['id'] == id);
       _titleController.text = existingJournal['title'];
       _descriptionController.text = existingJournal['description'];
     }
-showModalBottomSheet(
+    showModalBottomSheet(
         context: context,
         elevation: 5,
         isScrollControlled: true,
@@ -108,24 +108,28 @@ showModalBottomSheet(
               ),
             ));
   }
-Future<void> _addItem() async {
+
+  Future<void> _addItem() async {
     await SQLHelper.createItem(
         _titleController.text, _descriptionController.text);
     _refreshJournals();
   }
-Future<void> _updateItem(int id) async {
+
+  Future<void> _updateItem(int id) async {
     await SQLHelper.updateItem(
         id, _titleController.text, _descriptionController.text);
     _refreshJournals();
   }
-void _deleteItem(int id) async {
+
+  void _deleteItem(int id) async {
     await SQLHelper.deleteItem(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Se elimino con exito !!'),
     ));
     _refreshJournals();
   }
-@override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -167,7 +171,4 @@ void _deleteItem(int id) async {
       ),
     );
   }
-
-
-
 }
