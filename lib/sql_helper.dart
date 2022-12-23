@@ -21,6 +21,20 @@ static Future<sql.Database> db() async {
       },
     );
   }
+static Future<int> createItem(String title, String? descrption) async {
+    final db = await SQLHelper.db();
 
-
+    final data = {'title': title, 'description': descrption};
+    final id = await db.insert('items', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    return id;
+  }
+static Future<List<Map<String, dynamic>>> getItems() async {
+    final db = await SQLHelper.db();
+    return db.query('items', orderBy: "id");
+  }
+static Future<List<Map<String, dynamic>>> getItem(int id) async {
+    final db = await SQLHelper.db();
+    return db.query('items', where: "id = ?", whereArgs: [id], limit: 1);
+  }
 }
