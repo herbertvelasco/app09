@@ -52,6 +52,13 @@ static Future<int> updateItem(
         await db.update('items', data, where: "id = ?", whereArgs: [id]);
     return result;
   }
-
+static Future<void> deleteItem(int id) async {
+    final db = await SQLHelper.db();
+    try {
+      await db.delete("items", where: "id = ?", whereArgs: [id]);
+    } catch (err) {
+      debugPrint("Algo salió mal al eliminar un elemento: $err");
+    }
+  }
   
 }
