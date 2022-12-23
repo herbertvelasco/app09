@@ -36,4 +36,22 @@ class _HomePageState extends State<HomePage> {
       _isLoading = false;
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshJournals();
+  }
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
+void _showForm(int? id) async {
+    if (id != null) {
+      // id == null -> create new item
+      // id != null -> update an existing item
+      final existingJournal =
+          _journals.firstWhere((element) => element['id'] == id);
+      _titleController.text = existingJournal['title'];
+      _descriptionController.text = existingJournal['description'];
+    }
 }

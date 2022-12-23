@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:sqflite/sqflite.dart' as sql;
 
-
-import 'dart:ffi';
 
 class SQLHelper {
   static Future<Void> createTables(sql.Database database) async {
@@ -12,4 +12,15 @@ class SQLHelper {
       )
       """);
   }
+static Future<sql.Database> db() async {
+    return sql.openDatabase(
+      'database.db',
+      version: 1,
+      onCreate: (sql.Database database, int version) async {
+        await createTables(database);
+      },
+    );
+  }
+
+
 }
