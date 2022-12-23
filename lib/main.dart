@@ -47,8 +47,7 @@ class _HomePageState extends State<HomePage> {
 
 void _showForm(int? id) async {
     if (id != null) {
-      // id == null -> create new item
-      // id != null -> update an existing item
+      
       final existingJournal =
           _journals.firstWhere((element) => element['id'] == id);
       _titleController.text = existingJournal['title'];
@@ -125,7 +124,48 @@ void _deleteItem(int id) async {
     ));
     _refreshJournals();
   }
-
+@override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Registro de actividades'),
+      ),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: _journals.length,
+              itemBuilder: (context, index) => Card(
+                color: Colors.orange[200],
+                margin: const EdgeInsets.all(15),
+                child: ListTile(
+                    title: Text(_journals[index]['title']),
+                    subtitle: Text(_journals[index]['description']),
+                    trailing: SizedBox(
+                      width: 100,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => _showForm(_journals[index]['id']),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () =>
+                                _deleteItem(_journals[index]['id']),
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
+            ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => _showForm(null),
+      ),
+    );
+  }
 
 
 

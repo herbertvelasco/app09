@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 
-
 class SQLHelper {
-  static Future<Void> createTables(sql.Database database) async {
+  static Future<void> createTables(sql.Database database) async {
     await database.execute("""CREATE TABLE items(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         title TEXT,
@@ -12,16 +11,18 @@ class SQLHelper {
       )
       """);
   }
-static Future<sql.Database> db() async {
+
+  static Future<sql.Database> db() async {
     return sql.openDatabase(
-      'database.db',
+      'dbacode.db',
       version: 1,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
       },
     );
   }
-static Future<int> createItem(String title, String? descrption) async {
+
+  static Future<int> createItem(String title, String? descrption) async {
     final db = await SQLHelper.db();
 
     final data = {'title': title, 'description': descrption};
@@ -29,16 +30,18 @@ static Future<int> createItem(String title, String? descrption) async {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     return id;
   }
-static Future<List<Map<String, dynamic>>> getItems() async {
+
+  static Future<List<Map<String, dynamic>>> getItems() async {
     final db = await SQLHelper.db();
     return db.query('items', orderBy: "id");
   }
-static Future<List<Map<String, dynamic>>> getItem(int id) async {
+
+  static Future<List<Map<String, dynamic>>> getItem(int id) async {
     final db = await SQLHelper.db();
     return db.query('items', where: "id = ?", whereArgs: [id], limit: 1);
   }
 
-static Future<int> updateItem(
+  static Future<int> updateItem(
       int id, String title, String? descrption) async {
     final db = await SQLHelper.db();
 
@@ -52,7 +55,8 @@ static Future<int> updateItem(
         await db.update('items', data, where: "id = ?", whereArgs: [id]);
     return result;
   }
-static Future<void> deleteItem(int id) async {
+
+  static Future<void> deleteItem(int id) async {
     final db = await SQLHelper.db();
     try {
       await db.delete("items", where: "id = ?", whereArgs: [id]);
@@ -60,5 +64,4 @@ static Future<void> deleteItem(int id) async {
       debugPrint("Algo salió mal al eliminar un elemento: $err");
     }
   }
-  
 }
