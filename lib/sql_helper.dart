@@ -38,6 +38,20 @@ static Future<List<Map<String, dynamic>>> getItem(int id) async {
     return db.query('items', where: "id = ?", whereArgs: [id], limit: 1);
   }
 
+static Future<int> updateItem(
+      int id, String title, String? descrption) async {
+    final db = await SQLHelper.db();
+
+    final data = {
+      'title': title,
+      'description': descrption,
+      'createdAt': DateTime.now().toString()
+    };
+
+    final result =
+        await db.update('items', data, where: "id = ?", whereArgs: [id]);
+    return result;
+  }
 
   
 }
